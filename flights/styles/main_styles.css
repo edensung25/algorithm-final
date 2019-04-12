@@ -710,11 +710,11 @@ section
 }
 .search_input_2
 {
-	width: 15%;
+	width: 35%;
 }
 .search_input_3
 {
-	width: 15%;
+	width: 35%;
 }
 .search_input_4
 {
@@ -757,7 +757,7 @@ section
 }
 .home_search_button
 {
-	width: 161px;
+	width: 200px;
 	height: 52px;
 	background: #181818;
 	color: #FFFFFF;
