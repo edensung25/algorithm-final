@@ -4,7 +4,7 @@ from py2neo import Graph
 import csv
 
 graph = Graph("bolt://localhost:7687", auth=("neo4j", "algorithm"))
-import relationships
+# import relationships
 with open('data/flights_83.csv', mode='r') as csv_file:
     csv_reader = csv.DictReader(csv_file)
     line_count = 0
