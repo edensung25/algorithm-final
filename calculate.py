@@ -4,6 +4,7 @@ from py2neo import Graph
 import json
 from collections import defaultdict
 app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
 graph = Graph("bolt://localhost:7687", auth=("neo4j", "algorithm"))
 
 class Network():
@@ -68,7 +69,10 @@ def request1():
         temp = {'state': n[0], 'airport': n[1], 'city': n[2], 'latitude': n[3], 'longitude': n[3], 'code':n[5]}
         arr.append(temp)
     data['data'] = arr
-    return json.dumps(data, sort_keys=True, indent=4)
+
+    response = jsonify(data)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
