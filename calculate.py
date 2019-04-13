@@ -60,15 +60,11 @@ def request1():
     # calculate shortest path
     airports = network.dijsktra(network, str(request.args.get('start')), str(request.args.get('destination')))
     # wrap up the result into search condition and retrieve airport data from neo4j
-    conditions = ""
-    for airport in airports:
-        if len(conditions) > 0:
-            conditions += " or "
-        conditions += "n.IATA_CODE = '"+airport+"'"
-    details = graph.run("MATCH (n:Airports) WHERE " +conditions+" RETURN n.STATE, n.AIRPORT, n.CITY, n.LATITUDE, n.LONGITUDE, n.IATA_CODE").to_table()
-    # convert table into json
     data, arr = {}, []
-    for n in details:
+    for airport in airports:
+        details = graph.run("MATCH (n:Airports) WHERE n.IATA_CODE = '" +airport+"' RETURN n.STATE, n.AIRPORT, n.CITY, n.LATITUDE, n.LONGITUDE, n.IATA_CODE").to_table()
+    # convert table into json
+        n = details[0]
         temp = {'state': n[0], 'airport': n[1], 'city': n[2], 'latitude': n[3], 'longitude': n[3], 'code':n[5]}
         arr.append(temp)
     data['data'] = arr
