@@ -66,7 +66,7 @@ def request1():
         details = graph.run("MATCH (n:Airports) WHERE n.IATA_CODE = '" +airport+"' RETURN n.STATE, n.AIRPORT, n.CITY, n.LATITUDE, n.LONGITUDE, n.IATA_CODE").to_table()
     # convert table into json
         n = details[0]
-        temp = {'state': n[0], 'airport': n[1], 'city': n[2], 'latitude': n[3], 'longitude': n[3], 'code':n[5]}
+        temp = {'state': n[0], 'airport': n[1], 'city': n[2], 'latitude': n[3], 'longitude': n[4], 'code':n[5]}
         arr.append(temp)
     data['data'] = arr
 
