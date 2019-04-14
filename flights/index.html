@@ -91,7 +91,7 @@
 	<!-- Home -->
 
 	<div class="home">
-		
+		<div class="background_image" style="background-image:url(images/home_slider.jpg)"></div>		
 		<!-- Home Slider -->
 		<div class="home_slider_container">
 			<div class="owl-carousel owl-theme home_slider">
@@ -158,9 +158,9 @@
 						<div class="home_search_content">
 							<form action="#" class="home_search_form" id="home_search_form">
 								<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-									<input type="text" class="search_input search_input_2" placeholder="Departure" required="required">
-									<input type="text" class="search_input search_input_3" placeholder="Arrival" required="required">
-									<button class="home_search_button">search</button>
+									<input id="start" type="text" class="search_input search_input_2" placeholder="Departure" required="required">
+									<input id="end" type="text" class="search_input search_input_3" placeholder="Arrival" required="required">
+									<button class="home_search_button" onClick="onClick()">search</button>
 								</div>
 							</form>
 						</div>
@@ -198,45 +198,6 @@
 
 	
 	<div id="googleMap" style="width:100%;height:700px;"></div>
-
-	<script>
-	function myMap() {
-		var mapProp= {
-		center:new google.maps.LatLng(37.8283,-98.5795),
-		zoom:5,
-		};
-		var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-		}
-
-
-	function pathOnMap() {
-        var map = new google.maps.Map(document.getElementById('googleMap'), {
-          zoom: 4.8,
-          center: {lat: 37.8283, lng: -98.5795},
-        });
-
-        var flightPlanCoordinates = [
-          {lat: 37.772, lng: -122.214}, //aparture city
-          {lat: 40.291, lng: -100.821}, // transpoint 1
-          {lat: 44.142, lng: -90.431}, // transpoint 2
-		  {lat: 44.467, lng: -84.27}, //destination 
-		];
-
-        var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-		});
-
-		flightPath.setMap(map);		
-      }
-	</script>
-
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn5fh124bsTgI9vXH5YEO-BqIHr1G1EOI&callback=pathOnMap"></script>
-
-
 	<!-- Footer -->
 
 	<footer class="footer">
@@ -324,6 +285,82 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="plugins/scrollTo/jquery.scrollTo.min.js"></script>
 <script src="plugins/easing/easing.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
-<script src="js/custom.js"></script>
+<!-- <script src="js/custom.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	var map;
+	var flightPlanCoordinates = [
+		// {lat: 37.772, lng: -122.214}, //aparture city
+		// {lat: 40.291, lng: -100.821}, // transpoint 1
+		// {lat: 44.142, lng: -90.431}, // transpoint 2
+		// {lat: 44.467, lng: -84.27}, //destination 
+	];
+	
+	function onClick() {
+		pathOnMap();
+		var start = document.getElementById("start");
+		var end = document.getElementById("end");
+		$.ajax({url: "http://127.0.0.1:5000/?start="+start.value+"&destination="+end.value, success: function(result){
+			console.log(start.value)
+			console.log(end.value)
+			// console.log(result);
+			this.flightPlanCoordinates = new Array();
+			for (i = 0 ; i < result['data'].length; i++) {
+				console.log(result['data'][i]);
+				tmep = {lat: parseFloat(result['data'][i]['latitude']), lng: parseFloat(result['data'][i]['longitude'])};
+				this.flightPlanCoordinates.push(tmep);
+			}
+			console.log(this.flightPlanCoordinates);
+			// refresh google maps
+			this.map = new google.maps.Map(document.getElementById('googleMap'), {
+			zoom: 4.8,
+			center: {lat: 37.8283, lng: -98.5795},
+			});
+
+			var flightPath = new google.maps.Polyline({
+			path: this.flightPlanCoordinates,
+			geodesic: true,
+			strokeColor: '#FF0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 2
+			});
+			flightPath.setMap(this.map);
+			$("googleMap").html(this.map);
+			
+		},
+		complete: function(){
+			$("#googleMap").load("http://127.0.0.1:5000/ .googleMap");
+		}
+		});	
+	}
+
+	function myMap() {
+		var mapProp= {
+		center:new google.maps.LatLng(37.8283,-98.5795),
+		zoom:5,
+		};
+		this.map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	}
+
+	function pathOnMap() {
+        this.map = new google.maps.Map(document.getElementById('googleMap'), {
+          zoom: 4.8,
+          center: {lat: 37.8283, lng: -98.5795},
+        });
+
+        var flightPath = new google.maps.Polyline({
+          path: this.flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+		});
+		console.log(flightPath);
+		flightPath.setMap(this.map);		
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn5fh124bsTgI9vXH5YEO-BqIHr1G1EOI&callback=pathOnMap"></script>
+
 </body>
 </html>
