@@ -18,4 +18,4 @@ with open('data/flights_100.csv', mode='r') as csv_file:
         line_count += 1
         print(row['ORIGIN_AIRPORT'], row['DESTINATION_AIRPORT'], row['DISTANCE'])
         print(graph.run("match (a:Airports), (b:Airports) where a.IATA_CODE = '"+row['ORIGIN_AIRPORT']+"' and b.IATA_CODE = '"+row['DESTINATION_AIRPORT']+"' create (a)-[r:airline{distance: "+row['DISTANCE']+"}]->(b)"))
-    print(line_count)
+    print(line_count) 
