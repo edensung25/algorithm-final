@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+<link rel="stylesheet" type="text/css" href="styles/jquery-ui.min.css">
 </head>
 <body>
 
@@ -158,8 +159,8 @@
 						<div class="home_search_content">
 							<form action="#" class="home_search_form" id="home_search_form">
 								<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-									<input type="text" class="search_input search_input_2" placeholder="Departure" required="required">
-									<input type="text" class="search_input search_input_3" placeholder="Arrival" required="required">
+									<input type="text" id="DepartureId" class="search_input search_input_2" placeholder="Departure" required="required">
+									<input type="text" id="ArrivalId" class="search_input search_input_3" placeholder="Arrival" required="required">
 									<button class="home_search_button">search</button>
 								</div>
 							</form>
@@ -317,6 +318,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </div>
 
 <script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
 <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
@@ -325,5 +327,19 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="plugins/easing/easing.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/custom.js"></script>
+<script src="js/AutocompleteFiels.js"></script>
+<script>
+  $( function() {
+
+    $( "#ArrivalId" ).autocomplete({
+      source: Arrivals
+		});
+		
+		$( "#DepartureId" ).autocomplete({
+      source: Departures
+		});
+		
+  } );
+  </script>
 </body>
 </html>
