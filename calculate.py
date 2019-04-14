@@ -58,8 +58,10 @@ def request1():
     for edge in rel:
         network.add_edge(*edge)
     
+    start = str(request.args.get('start'))
+    end = str(request.args.get('destination'))
     # calculate shortest path
-    airports = network.dijsktra(network, str(request.args.get('start')), str(request.args.get('destination')))
+    airports = network.dijsktra(network, start.upper(), end.upper())
     # wrap up the result into search condition and retrieve airport data from neo4j
     data, arr = {}, []
     for airport in airports:

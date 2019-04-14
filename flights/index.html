@@ -44,7 +44,6 @@
 								<div class="hamburger ml-auto">
 									<i class="fa fa-bars" aria-hidden="true"></i>
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -174,10 +173,10 @@
 									<div
 										class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
 										<input type="text" id="DepartureId" class="search_input search_input_2" placeholder="Departure"
-											required="required">
+											name="start" required="required">
 										<input type="text" id="ArrivalId" class="search_input search_input_3" placeholder="Arrival"
-											required="required">
-										<button id="searchbtn" class="home_search_button" onClick="drawMap()">search</button>
+											name="end" required="required">
+										<a href="#map"><button id="searchbtn" class="home_search_button" onClick="drawMap()">search</button></a>
 									</div>
 								<!-- </form> -->
 							</div>
@@ -217,8 +216,9 @@
 			</div>
 		</div>
 
-
-		<div id="googleMap" style="width:100%;height:700px;"></div>
+		<section id="map">
+			<div id="googleMap" style="width:100%;height:700px;"></div>
+		</section>
 
 		<script>
 
@@ -252,11 +252,12 @@
             }
 
 			function drawMap() {
+				
 				this.removeLine();
 				var start = document.getElementById("DepartureId");
 				var end = document.getElementById("ArrivalId");
 				$.ajax({url: "http://127.0.0.1:5000/?start="+start.value+"&destination="+end.value, success: function(result){
-          var flightPlanCoordinates = [];
+          			var flightPlanCoordinates = [];
 					for (i = 0 ; i < result['data'].length; i++) {
 						tmep = {lat: parseFloat(result['data'][i]['latitude']), lng: parseFloat(result['data'][i]['longitude'])};
 						flightPlanCoordinates.push(tmep);
@@ -270,6 +271,8 @@
 					flightPath.setMap(map);
 				}
 				});
+				document.getElementById("DepartureId").value = "";
+				document.getElementById("ArrivalId").value = "";
 			}
 		</script>
 
