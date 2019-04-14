@@ -161,7 +161,7 @@
 								<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
 									<input type="text" id="DepartureId" class="search_input search_input_2" placeholder="Departure" required="required">
 									<input type="text" id="ArrivalId" class="search_input search_input_3" placeholder="Arrival" required="required">
-									<button class="home_search_button">search</button>
+									<button class="home_search_button" id="searchbtn">search</button>
 								</div>
 							</form>
 						</div>
@@ -209,9 +209,9 @@
 		var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 		}
 
-
+		var map;
 	function pathOnMap() {
-        var map = new google.maps.Map(document.getElementById('googleMap'), {
+          map = new google.maps.Map(document.getElementById('googleMap'), {
           zoom: 4.8,
           center: {lat: 37.8283, lng: -98.5795},
         });
@@ -328,24 +328,51 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/custom.js"></script>
 <script src="js/AutocompleteFiels.js"></script>
-<script>
-  $( function() {
+<script src="js/airports.js"></script>
+	<script>
+		$(function () {
 
-    $( "#ArrivalId" ).autocomplete({
-      source: Arrivals
+			$("#ArrivalId").autocomplete({
+				source: Arrivals
+			});
+
+			$("#DepartureId").autocomplete({
+				source: Departures
+			});
+			$.ui.autocomplete.filter = function (array, term) {
+				var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(term), "i");
+				return $.grep(array, function (value) {
+					return matcher.test(value.label || value.value || value);
+				});
+			};
+
+			$("#searchbtn").click(function () {
+				// alert("shromed");
+
+				var depart = $("#DepartureId").val();
+				var Arriv = $("#ArrivalId").val();
+				// ShortestPath(depart,Arriv);
+				airportOnMap();
+			});
+
 		});
-		
-		$( "#DepartureId" ).autocomplete({
-      source: Departures
-		});
-		$.ui.autocomplete.filter = function (array, term) {
-        var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(term), "i");
-        return $.grep(array, function (value) {
-            return matcher.test(value.label || value.value || value);
-        });
-    };
-		
-  } );
-  </script>
+		function ShortestPath(Departure, Arrival) {
+			alert(Departure);
+			alert(Arrival);
+		}
+
+		function airportOnMap() {
+
+			for (let index = 0; index < airports.length; index++) {
+				const element = airports[index];
+				
+				var position= new google.maps.LatLng(element.lat, element.lon)
+				var marker = new google.maps.Marker({position: position});
+
+				marker.setMap(map);
+			}
+
+		}
+	</script>
 </body>
 </html>
