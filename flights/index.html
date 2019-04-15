@@ -193,7 +193,7 @@
 				<div class="row">
 					<div class="col">
 						<div class="intro_container">
-							<div class="row">
+							<div class="row" style="height: 150px">
 
 								<!-- Intro Item -->
 								<div class="col-lg-4 intro_col">
@@ -209,6 +209,24 @@
 										</div>
 									</div>
 								</div>
+
+								<!-- Intro Item -->
+								<div class="col-lg-8 intro_col" style="margin-top: -55px">
+									<div class="intro_item d-flex flex-row align-items-end justify-content-start">
+										<div class="intro_content">
+											<div id="result-title" class="intro_title"></div>
+											<div class="intro_subtitle">
+												<button id="option0" class="draw_option_button text-left" onClick="selectRoute(0)"></button>
+											</div>
+											<div class="intro_subtitle">
+												<button id="option1" class="draw_option_button text-left" onClick="selectRoute(1)"></button>
+											</div>
+											<div class="intro_subtitle">
+												<button id="option2" class="draw_option_button text-left" onClick="selectRoute(2)"></button>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -221,10 +239,9 @@
 		</section>
 
 		<script>
-
             var flightPath;
             var map;
-
+			var resp;
             function initMap() {
                 map = new google.maps.Map(document.getElementById('googleMap'), {
 					zoom: 4.8,
@@ -251,24 +268,44 @@
                 flightPath.setMap(null);
             }
 
-			function drawMap() {
-				
+			function selectRoute(idx) {
 				this.removeLine();
-				var start = document.getElementById("DepartureId");
-				var end = document.getElementById("ArrivalId");
-				$.ajax({url: "http://127.0.0.1:5000/?start="+start.value+"&destination="+end.value, success: function(result){
-          			var flightPlanCoordinates = [];
-					for (i = 0 ; i < result['data'][0].length; i++) {
-						tmep = {lat: parseFloat(result['data'][0][i]['latitude']), lng: parseFloat(result['data'][0][i]['longitude'])};
-						flightPlanCoordinates.push(tmep);
-					}
-					flightPath = new google.maps.Polyline({
+				var flightPlanCoordinates = [];
+				j = parseInt(idx);
+				var title = "";
+				result = resp;
+				for (i = 0 ; i < result['data'][j].length; i++) {
+					tmep = {lat: parseFloat(result['data'][j][i]['latitude']), lng: parseFloat(result['data'][j][i]['longitude'])};
+					flightPlanCoordinates.push(tmep);
+				}
+				flightPath = new google.maps.Polyline({
 					path: flightPlanCoordinates,
 					strokeColor: '#FF0000',
 					strokeOpacity: 1.0,
 					strokeWeight: 2
-					});
-					flightPath.setMap(map);
+				});
+				flightPath.setMap(map);
+			}
+
+			function drawMap() {
+				this.removeLine();
+				var start = document.getElementById("DepartureId");
+				var end = document.getElementById("ArrivalId");
+				$.ajax({url: "http://127.0.0.1:5000/?start="+start.value+"&destination="+end.value, success: function(result) {
+					resp = result
+					$("#result-title").html("The result for you:");
+					for (j = 0 ; j < result['data'].length; j++) {
+						var title = "";
+						for (i = 0 ; i < result['data'][j].length; i++) {
+							if (title != "") {
+								title = title + " -> " + result['data'][j][i]['code'];
+							} else {
+								title = result['data'][j][i]['code'];
+							}
+						}
+						$("#option"+j).html((j+1)+". "+title);
+					}
+					selectRoute(0);
 				}
 				});
 				document.getElementById("DepartureId").value = "";

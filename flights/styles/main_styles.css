@@ -770,7 +770,22 @@ section
 	outline: none;
 	cursor: pointer;
 }
-
+.draw_option_button
+{
+	width: 400px;
+	height: 52px;
+	background: #ffffff;
+	color: #181818;
+	font-family: 'Oswald', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	text-transform: uppercase;
+	border-radius: 20px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	margin-top: 4px;
+}
 /*********************************
 7. Intro
 *********************************/
@@ -796,8 +811,8 @@ section
 {
 	width: 100%;
 	border-bottom: solid 2px #e4e6e8;
-	padding-top: 142px;
-	padding-bottom: 121px;
+	padding-top: 100px;
+	padding-bottom: 50px;
 }
 .intro_icon
 {

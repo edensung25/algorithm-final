@@ -132,7 +132,7 @@ def request1():
     
     start = str(request.args.get('start'))
     end = str(request.args.get('destination'))
-    k = 2
+    k = 3
     distances, shortestPath, shortestPathLen = g.get_shortest_path(start, end)
     paths = g.k_shortest_paths(start, end, k)
     res = []
@@ -141,7 +141,7 @@ def request1():
         for i in range(0, len(path),3):
             temp.append(path[i+2]+path[i+1]+path[i])
         res.append(temp)
-    print(res)
+    # print(res)
 
     response, data = {}, []
     for i in res:
