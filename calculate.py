@@ -156,7 +156,10 @@ def request1():
         data.append(arr)
     response['data'] = data
 
-    return jsonify(response)
+    # return jsonify(response)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
