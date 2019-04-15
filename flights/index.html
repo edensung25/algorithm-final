@@ -176,7 +176,7 @@
 											name="start" required="required">
 										<input type="text" id="ArrivalId" class="search_input search_input_3" placeholder="Arrival"
 											name="end" required="required">
-										<a href="#map"><button id="searchbtn" class="home_search_button" onClick="drawMap()">search</button></a>
+										<a href="#list"><button id="searchbtn" class="home_search_button" onClick="drawMap()">search</button></a>
 									</div>
 								<!-- </form> -->
 							</div>
@@ -187,42 +187,43 @@
 		</div>
 
 		<!-- Intro -->
-
-		<div class="intro">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="intro_container">
-							<div class="row" style="height: 150px">
-
-								<!-- Intro Item -->
-								<div class="col-lg-4 intro_col">
-									<div class="intro_item d-flex flex-row align-items-end justify-content-start">
-										<div class="intro_icon"><img src="images/wallet.svg" alt=""></div>
-										<div class="intro_content">
-											<div class="intro_title">The Shortest Pathes</div>
-											<div class="intro_subtitle">
-												<p>Click the one you prefer.</p>
+		<section id="list">
+			<div class="intro">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<div class="intro_container">
+								<div class="row" style="height: 150px">
+	
+									<!-- Intro Item -->
+									<div class="col-lg-4 intro_col">
+										<div class="intro_item d-flex flex-row align-items-end justify-content-start">
+											<div class="intro_icon"><img src="images/wallet.svg" alt=""></div>
+											<div class="intro_content">
+												<div class="intro_title">The Shortest Pathes</div>
+												<div class="intro_subtitle">
+													<p>Click the one you prefer.</p>
+												</div>
+												<input type="checkbox" id="filter" value="maloprodaja" class='chk-btn'>
+												<label for='flush'>Show Airports</label>
 											</div>
-											<input type="checkbox" id="filter" value="maloprodaja" class='chk-btn'>
-											<label for='flush'>Show Airports</label>
 										</div>
 									</div>
-								</div>
-
-								<!-- Intro Item -->
-								<div class="col-lg-8 intro_col" style="margin-top: -55px">
-									<div class="intro_item d-flex flex-row align-items-end justify-content-start">
-										<div class="intro_content">
-											<div id="result-title" class="intro_title"></div>
-											<div class="intro_subtitle">
-												<button id="option0" class="draw_option_button text-left" onClick="selectRoute(0)"></button>
-											</div>
-											<div class="intro_subtitle">
-												<button id="option1" class="draw_option_button text-left" onClick="selectRoute(1)"></button>
-											</div>
-											<div class="intro_subtitle">
-												<button id="option2" class="draw_option_button text-left" onClick="selectRoute(2)"></button>
+	
+									<!-- Intro Item -->
+									<div class="col-lg-8 intro_col" style="margin-top: -55px">
+										<div class="intro_item d-flex flex-row align-items-end justify-content-start">
+											<div class="intro_content">
+												<div id="result-title" class="intro_title"></div>
+												<div class="intro_subtitle">
+													<button id="option0" class="draw_option_button text-left" onClick="selectRoute(0)"></button>
+												</div>
+												<div class="intro_subtitle">
+													<button id="option1" class="draw_option_button text-left" onClick="selectRoute(1)"></button>
+												</div>
+												<div class="intro_subtitle">
+													<button id="option2" class="draw_option_button text-left" onClick="selectRoute(2)"></button>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -232,7 +233,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
+		
 
 		<section id="map">
 			<div id="googleMap" style="width:100%;height:700px;"></div>
