@@ -780,11 +780,31 @@ section
 	font-size: 16px;
 	font-weight: 400;
 	text-transform: uppercase;
-	border-radius: 20px;
+	border-radius: 5px;
 	border: none;
 	outline: none;
 	cursor: pointer;
 	margin-top: 4px;
+}
+#back_to_top_button 
+{
+	display: none;
+	position: fixed;
+	bottom: calc(50%);
+	right: 10px;
+	z-index: 99;
+	font-size: 18px;
+	border: none;
+	outline: none;
+	background-color: #354269;
+	color: white;
+	cursor: pointer;
+	padding: 15px;
+	border-radius: 4px;
+}
+#back_to_top_button:hover 
+{
+	background-color: #555;
 }
 /*********************************
 7. Intro

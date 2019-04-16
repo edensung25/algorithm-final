@@ -130,8 +130,8 @@ def request1():
     for key, value in vsets.items():
         g.add_vertex(key, value)
     
-    start = str(request.args.get('start'))
-    end = str(request.args.get('destination'))
+    start = str(request.args.get('start')).upper()
+    end = str(request.args.get('destination')).upper()
     k = 3
     distances, shortestPath, shortestPathLen = g.get_shortest_path(start, end)
     paths = g.k_shortest_paths(start, end, k)
@@ -156,7 +156,6 @@ def request1():
         data.append(arr)
     response['data'] = data
 
-    # return jsonify(response)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

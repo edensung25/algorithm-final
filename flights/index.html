@@ -33,10 +33,11 @@
 								<nav class="main_nav">
 									<ul class="d-flex flex-row align-items-start justify-content-start">
 										<li class="active"><a href="index.html">Home</a></li>
-										<li><a href="about.html">About us</a></li>
+										<li><a href="#list">Menu</a></li>
+										<li><a href="#map">Map</a></li>
 									</ul>
 								</nav>
-								<div class="header_phone ml-auto">Cantact us: xxx@pitt.edu</div>
+								<div class="header_phone ml-auto">Cantact us: lomoteyr@gmail.com</div>
 
 								<!-- Hamburger -->
 
@@ -246,7 +247,7 @@
                 path: flightPathCoordinates,
                 strokeColor: '#FF0000',
                 strokeOpacity: 1.0,
-                strokeWeight: 2
+                strokeWeight: 5
                 });
 
                 addLine();
@@ -387,6 +388,35 @@
 			}
 		}
 	</script>
+	<button onclick="topFunction()" id="back_to_top_button" title="Go to top">Top</button>
 </body>
+<script>
+	$(document).ready(function(){
+	  $("a").on('click', function(event) {
+		if (this.hash !== "") {
+		  event.preventDefault();
+		  var hash = this.hash;
+		  $('html, body').animate({
+			scrollTop: $(hash).offset().top
+		  }, 800, function(){
+			window.location.hash = hash;
+		  });
+		}
+	  });
+	});
 
+	window.onscroll = function() {scrollFunction()};
+
+	function scrollFunction() {
+		if (document.body.scrollTop > 700 || document.documentElement.scrollTop > 700) {
+			document.getElementById("back_to_top_button").style.display = "block";
+		} else {
+			document.getElementById("back_to_top_button").style.display = "none";
+		}
+	}
+
+	function topFunction() {
+		$("html, body").animate({ scrollTop: "0px" });
+	}
+	</script>
 </html>
