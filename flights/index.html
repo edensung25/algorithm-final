@@ -455,9 +455,23 @@
 					const element = airports[index];
 
 					var position = new google.maps.LatLng(element.lat, element.lon)
+
+					var markerIcon = {
+						url: "images/marker.png",
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(25,50),
+						labelOrigin:  new google.maps.Point(25,20),
+					};
+	  
 					var marker = new google.maps.Marker({
 						position: position,
-						label: element.iata
+						label: {
+							text: element.iata,
+							color: "#333333",
+							fontSize: "13px",
+							fontWeight: "bold"
+						},
+						icon: markerIcon//"images/marker.png",
 					});
 					marker.setMap(map);
 					markers.push(marker);
