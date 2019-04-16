@@ -235,52 +235,76 @@
 		</section>
 
 		<script>
-            var flightPath;
-            var map;
+			var flightPath;
+			var map;
 			var resp;
-            function initMap() {
+			function initMap() {
                 map = new google.maps.Map(document.getElementById('googleMap'), {
-					zoom: 4.8,
-					center: { lat: 37.8283, lng: -98.5795 },
+                    zoom: 4.8,
+                    center: { lat: 37.8283, lng: -98.5795 },
 				});
 
-                var flightPathCoordinates = [];
+				var flightPathCoordinates = [];
 
-                flightPath = new google.maps.Polyline({
-                path: flightPathCoordinates,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
-                strokeWeight: 5
-                });
+				flightPath = new google.maps.Polyline({
+					path: flightPathCoordinates,
+					strokeColor: '#FF0000',
+					strokeOpacity: 1.0,
+					strokeWeight: 5
+				});
+				addLine();
+			}
 
-                addLine();
-            }
+			function addLine() {
+				flightPath.setMap(map);
+			}
 
-            function addLine() {
-                flightPath.setMap(map);
-            }
-
-            function removeLine() {
-                flightPath.setMap(null);
-            }
+			function removeLine() {
+				flightPath.setMap(null);
+			}
 
 			function selectRoute(idx) {
 				this.removeLine();
 				var flightPlanCoordinates = [];
 				j = parseInt(idx);
 				var title = "";
-				result = resp;
+                result = resp;
+                    
 				for (i = 0 ; i < result['data'][j].length; i++) {
 					tmep = {lat: parseFloat(result['data'][j][i]['latitude']), lng: parseFloat(result['data'][j][i]['longitude'])};
-					flightPlanCoordinates.push(tmep);
-				}
+                    flightPlanCoordinates.push(tmep);
+                    var position = new google.maps.LatLng(tmep.lat, tmep.lon)
+	  
+					var marker = new google.maps.Marker({
+						position: position,
+						label: {
+							text: "ew",
+							color: "#333333",
+							fontSize: "13px",
+							fontWeight: "bold"
+						},
+						icon: "images/marker.png",
+					});
+					marker.setMap(map);
+					markers.push(marker);
+                }
+				var lineSymbol = {
+                    path: 'M 0,-1 0,1',
+                    strokeOpacity: 1,
+                    scale: 4
+				};
 				flightPath = new google.maps.Polyline({
 					path: flightPlanCoordinates,
-					strokeColor: '#FF0000',
-					strokeOpacity: 1.0,
-					strokeWeight: 2
+					strokeOpacity: 0,
+					icons: [{
+                        icon: lineSymbol,
+                        offset: '0',
+                        repeat: '20px'
+                    }]
 				});
-				flightPath.setMap(map);
+                flightPath.setMap(map);
+                
+                updateMarker(true, idx, result['data'][j])
 			}
 
 			function drawMap() {
@@ -301,12 +325,45 @@
 						}
 						$("#option"+j).html((j+1)+". "+title);
 					}
-					selectRoute(0);
+                    selectRoute(0);
 				}
 				});
 				document.getElementById("DepartureId").value = "";
 				document.getElementById("ArrivalId").value = "";
+            }
+            
+            function updateMarker(show, idx, points) {
+                for (var i = 0; i < markers.length; i++) {
+					markers[i].setMap(null);
+				}
+                markers = [];
+				for (let index = 0; index < points.length; index++) {
+					const element = points[index];
+
+					var position = new google.maps.LatLng(element['latitude'], element['longitude'])
+
+					var markerIcon = {
+						url: "images/marker.png",
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(25,50),
+						labelOrigin:  new google.maps.Point(25,20),
+					};
+	  
+					var marker = new google.maps.Marker({
+						position: position,
+						label: {
+							text: element['code'],
+							color: "#333333",
+							fontSize: "13px",
+							fontWeight: "bold"
+						},
+						icon: markerIcon
+					});
+					marker.setMap(map);
+					markers.push(marker);
+				}
 			}
+		
 		</script>
 
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn5fh124bsTgI9vXH5YEO-BqIHr1G1EOI&callback=initMap"></script>
