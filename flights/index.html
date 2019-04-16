@@ -237,7 +237,8 @@
 		<script>
 			var flightPath;
 			var map;
-			var resp;
+            var resp;
+            var currentIdx = -1;
 			function initMap() {
                 map = new google.maps.Map(document.getElementById('googleMap'), {
                     zoom: 4.8,
@@ -304,7 +305,8 @@
 				});
                 flightPath.setMap(map);
                 
-                updateMarker(true, idx, result['data'][j])
+                updateMarker(true, idx, result['data'][j]);
+                currentIdx = idx;
 			}
 
 			function drawMap() {
@@ -506,7 +508,6 @@
 		}
 
 		function airportOnMap(show) {
-			// alert(show);
 			if (show) {
 				for (let index = 0; index < airports.length; index++) {
 					const element = airports[index];
@@ -538,7 +539,10 @@
 				for (var i = 0; i < markers.length; i++) {
 					markers[i].setMap(null);
 				}
-				markers = [];
+                markers = [];
+                if (currentIdx > -1) {
+                    updateMarker(true, currentIdx, resp['data'][currentIdx]);
+                }
 			}
 		}
 	</script>
